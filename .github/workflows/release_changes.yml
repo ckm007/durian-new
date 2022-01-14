@@ -1,31 +1,46 @@
 name: Release/pre-release Preparation.
-
-on:
+on: 
   workflow_dispatch:
     inputs:
-      message:
-        description: 'Triggered for release or pe-release'     
-        required: false
-        default: 'Release Preparation'
-      releaseTags:
-        description: 'tag to update'
+      logLevel:
+        description: 'Log level'     
         required: true
-      snapshotTags:
-        description: 'tag to be replaced'
-        required: true
-      base:
-        description: 'base branch for PR'
-        required: true
+        default: 'warning'
+      tags:
+        description: 'Test scenario tags'  
 jobs:
-  build:
+  printInputs:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup branch and env
-      run: |
-        # Strip git ref prefix from version
-        echo "BRANCH_NAME=$(echo ${{ github.ref }} | sed -e 's,.*/\(.*\),\1,')" >> $GITHUB_ENV
-        echo "GPG_TTY=$(tty)" >> $GITHUB_ENV
+    - run: |
+        echo "Log level: ${{ github.event.inputs.logLevel }}"
+        echo "Tags: ${{ github.event.inputs.tags }}" 
+#on:
+#  workflow_dispatch:
+#    inputs:
+#      message:
+#        description: 'Triggered for release or pe-release'     
+#        required: false
+#        default: 'Release Preparation'
+#      releaseTags:
+#        description: 'tag to update'
+#        required: true
+#      snapshotTags:
+#        description: 'tag to be replaced'
+#        required: true
+#     base:
+#        description: 'base branch for PR'
+#        required: true
+#jobs:
+#  build:
+#    runs-on: ubuntu-latest
+##    steps:
+#    - uses: actions/checkout@v2
+#    - name: Setup branch and env
+#      run: |
+#        # Strip git ref prefix from version
+#        echo "BRANCH_NAME=$(echo ${{ github.ref }} | sed -e 's,.*/\(.*\),\1,')" >> $GITHUB_ENV
+#        echo "GPG_TTY=$(tty)" >> $GITHUB_ENV#
 
     - name: Find and Replace
       uses: jacobtomlinson/gha-find-replace@v2
