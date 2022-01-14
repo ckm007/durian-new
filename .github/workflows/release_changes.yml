@@ -33,7 +33,6 @@ jobs:
         find: "github.event.inputs.snapshotTags"
         replace: "github.event.inputs.releaseTags"
         include: "**Pom.xml" # Will match all POM.xml files in any nested directory
-
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3
       with:
